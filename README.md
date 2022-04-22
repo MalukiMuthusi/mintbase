@@ -1,49 +1,68 @@
 # Mintbase API
 
-This project is an example for building an API using Swagger. To generate the and deploy the documentation, and implement the server.
+Use swagger to specify the api.  
+Generate API documentation from the `swagger.yml` file.  
+Host the api documentation.
 
-## Generate API documentation from the swagger.yml file
+Refer to the [Reference](#references) section, it contains links to documentations of the resources that were used.
 
-Download the [swagger-codegen-cli-2.4.27.jar][9] file. You can also follow the installation guide from the swagger-codegen [documentation][10]
+## Generate the documentation
+
+### Install tools
+
+Download the [swagger-codegen-cli-2.4.27.jar][9] file.  
+You can also follow the installation guide from the swagger-codegen [documentation][10]
 
 ```sh
 # Download current stable 2.x.x branch (Swagger and OpenAPI version 2)
 wget https://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.4.27/swagger-codegen-cli-2.4.27.jar -O swagger-codegen-cli.jar
 ```
 
-Install java. The swagger-codegen binary is a java tar file. Use [sdkman][11] to easily install java
+The swagger-codegen binary is a java tar file. Install java.  
+Use [sdkman][11] to easily install java sdk.
 
 ```sh
 sdk install java
 ```
 
-Now use the `swagger-codegen`
+Now use the `swagger-codegen` tool
 
 ```sh
 java -jar swagger-codegen-cli.jar --help
 ```
 
-### Generate the documentation
+### Generate
 
-Generate a swagger.json file from the swagger.yml file first.
+`$HOME/programs/swagger-codegen-cli-2.4.27.jar` refers to where you have installed swagger-codegen.  
+Make sure to **replace** this with the actual path to where you have saved swagger-codegen after downloading it.
+
+Generate a swagger.json file type from the swagger.yml file.  
+The swagger-codegen tool uses the swagger.json file type.
 
 ```sh
-java -DmodelDocs=false \
+# generate a swagger.json file type from the swagger.yml file and save to the folder api-docs
+java \
  -jar $HOME/programs/swagger-codegen-cli-2.4.27.jar generate \
  -i swagger.yml \
  -l swagger \
  -o api-docs
-
-
 ```
 
 ```sh
+# generate an html documentation of your api
 java \
     -jar $HOME/programs/swagger-codegen-cli-2.4.27.jar generate \
     -i api-docs/swagger.json \
     -l html2 \
     -o api-docs
 ```
+
+#### Host the documentation
+
+The folder api-docs can be deployed. as a documentation for the API.  
+In this example I will host the documentation on firebase, follow the documentation at [firebase-hosting][12]
+
+Here is the hosted documentation [https://mintbase.web.app/](https://mintbase.web.app/)
 
 ## References
 
@@ -68,3 +87,4 @@ java \
 [9]: https://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.4.27/swagger-codegen-cli-2.4.27.jar
 [10]: https://github.com/swagger-api/swagger-codegen
 [11]: https://sdkman.io/sdks
+[12]: https://firebase.google.com/docs/hosting
