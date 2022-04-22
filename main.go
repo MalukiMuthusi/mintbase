@@ -10,6 +10,7 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/MalukiMuthusi/mintbase/internal/handlers"
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,7 +23,14 @@ func main() {
 
 	r := gin.New()
 
+	ownedHandler := handlers.OwnedHandler{}
+
+	r.POST("owned/:user", ownedHandler.Handle)
+
 	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 
 	srv := &http.Server{
 		Addr: fmt.Sprintf("0.0.0.0:%s", port),
