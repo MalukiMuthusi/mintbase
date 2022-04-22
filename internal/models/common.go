@@ -39,3 +39,7 @@ func (e CustomErrorCode) String() string {
 var (
 	ErrFailedFetchData = errors.New("failed to fetch data")
 )
+
+type CheckHealthOK struct {
+	Payload string `json:"body,omitempty"`
+}

@@ -24,10 +24,13 @@ func main() {
 	r := gin.New()
 
 	ownedHandler := handlers.OwnedHandler{}
-	r.POST("owned/:user", ownedHandler.Handle)
+	r.GET("owned/:user", ownedHandler.Handle)
 
 	ownersHandler := handlers.OwnersHandler{}
-	r.POST("owners/:tokenid", ownersHandler.Handle)
+	r.GET("owners/:tokenid", ownersHandler.Handle)
+
+	healthHandler := handlers.HealthHandler{}
+	r.GET("healthz", healthHandler.Handle)
 
 	port := os.Getenv("PORT")
 	if port == "" {
