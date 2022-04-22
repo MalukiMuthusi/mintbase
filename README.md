@@ -10,6 +10,7 @@ This project is an example for building an API using Swagger. To generate the an
 - OpenAPI vscode editor [Open-API-marketplace-link][4]
 - Swagger Codegen [Swagger-codegen-github][5]
 - Golang Gin Web Framework [documentation][6]
+- Go Text template [documentation][7]
 
 [1]: https://swagger.io/specification/v2/
 [2]: https://github.com/swagger-api/swagger-editor
@@ -17,3 +18,4 @@ This project is an example for building an API using Swagger. To generate the an
 [4]: https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi
 [5]: https://github.com/swagger-api/swagger-codegen
 [6]: https://github.com/gin-gonic/gin
+[7]: https://pkg.go.dev/text/template
