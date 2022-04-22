@@ -27,6 +27,7 @@ paths:
   /owned/{user}:
     get:
       description: Returns owned tokens on Mintbase
+      operationId: getOwnedByUser
       produces:
         - application/json
       parameters:
@@ -46,6 +47,7 @@ paths:
   /owners/{tokenid}:
     get:
       description: Return the owners of an NFT.
+      operationId: getOwners
       produces:
         - application/json
       parameters:
