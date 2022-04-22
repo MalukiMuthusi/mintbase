@@ -31,7 +31,7 @@ Generate a swagger.json file from the swagger.yml file first.
 java -DmodelDocs=false \
  -jar $HOME/programs/swagger-codegen-cli-2.4.27.jar generate \
  -i swagger.yml \
- -l swagger
+ -l swagger \
  -o api-docs
 
 
@@ -40,7 +40,7 @@ java -DmodelDocs=false \
 ```sh
 java \
     -jar $HOME/programs/swagger-codegen-cli-2.4.27.jar generate \
-    -i swagger.json \
+    -i api-docs/swagger.json \
     -l html2 \
     -o api-docs
 ```
