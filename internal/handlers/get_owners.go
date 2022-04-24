@@ -15,7 +15,7 @@ func (h *OwnersHandler) Handle(c *gin.Context) {
 
 	var ownerParameter *models.OwnerParameter
 
-	if err := c.ShouldBind(ownerParameter); err != nil {
+	if err := c.ShouldBindUri(ownerParameter); err != nil {
 		e := models.BasicError{
 			Code:    models.InvalidTokenID.String(),
 			Message: "provide a valid token ID",

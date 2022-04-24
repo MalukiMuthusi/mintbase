@@ -29,6 +29,9 @@ func main() {
 	ownersHandler := handlers.OwnersHandler{}
 	r.GET("owners/:tokenid", ownersHandler.Handle)
 
+	ownedFilteredHandler := handlers.OwnedFilteredHandler{}
+	r.GET("owned/:user/:store", ownedFilteredHandler.Handle)
+
 	healthHandler := handlers.HealthHandler{}
 	r.GET("healthz", healthHandler.Handle)
 
