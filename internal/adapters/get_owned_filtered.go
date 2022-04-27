@@ -14,22 +14,16 @@ import (
 
 func GetOwnedFiltered(userFiltered models.OwnedFilteredParameter) (*map[string]interface{}, error) {
 	queryTemplate := `
-		query MyQuery	{
-				thing (
-					where: {
-						tokens: {
-							ownerId: {_eq: " {{.User}}"}
-						},
-						store: {name: {_eq: "{{.Store}}" }}
-					}
-				) {
-					id,
-					metadata {
-					title,
-					media
-					}
-				}
-			}
+	query MyQuery {
+		thing(where: {tokens: {ownerId: {_eq: "{{.User}}"}}, store: {name: {_in: "{{.Store}}"}}}) {
+		  metadata {
+			id
+			title
+			media
+			description
+		  }
+		}
+	  }
 	`
 
 	tmpl, err := template.New("queryTemplate").Parse(queryTemplate)
