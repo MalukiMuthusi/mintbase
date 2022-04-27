@@ -9,31 +9,28 @@ import (
 	"time"
 
 	"github.com/MalukiMuthusi/mintbase/internal/models"
+	"github.com/MalukiMuthusi/mintbase/logger"
 )
 
-func GetOwnedByUser(user *models.UserIDParameter) ([]byte, error) {
+func GetOwnedByUser(user models.UserIDParameter) (*map[string]interface{}, error) {
 
 	// create the query
 	queryTemplate := `
-	{ 
-		thing	(
-			where: {
-				tokens: {
-					ownerId: {_eq: " + {{.User}} + "}
-				}
-			}
-		) { 
-						id, 
-						metadata { 
-							title, 
-							media 
-						}
-					}
-				}
+	query MyQuery {
+		thing(where: {tokens: {ownerId: {_eq: "{{.User}}" }}}) {
+		  id
+		  metadata {
+			title
+			media
+			description
+		  }
+		}
+	  }
 `
 
 	tmpl, err := template.New("queryTemplate").Parse(queryTemplate)
 	if err != nil {
+		logger.Log.Info(err)
 		return nil, err
 	}
 
@@ -41,6 +38,7 @@ func GetOwnedByUser(user *models.UserIDParameter) ([]byte, error) {
 
 	err = tmpl.Execute(&b, user)
 	if err != nil {
+		logger.Log.Info(err)
 		return nil, err
 	}
 
@@ -52,11 +50,13 @@ func GetOwnedByUser(user *models.UserIDParameter) ([]byte, error) {
 
 	jsonValue, err := json.Marshal(jsonData)
 	if err != nil {
+		logger.Log.Info(err)
 		return nil, err
 	}
 
 	request, err := http.NewRequest(http.MethodPost, "https://mintbase-mainnet.hasura.app/v1/graphql", bytes.NewBuffer(jsonValue))
 	if err != nil {
+		logger.Log.Info(err)
 		return nil, err
 	}
 
@@ -64,14 +64,26 @@ func GetOwnedByUser(user *models.UserIDParameter) ([]byte, error) {
 
 	response, err := client.Do(request)
 	if err != nil {
+		logger.Log.Info(err)
 		return nil, err
 	}
 	defer response.Body.Close()
 
 	data, err := ioutil.ReadAll(response.Body)
 	if err != nil {
+		logger.Log.Info(err)
 		return nil, err
 	}
 
-	return data, nil
+	// var res models.Resp
+
+	var res2 map[string]interface{}
+
+	err = json.Unmarshal(data, &res2)
+	if err != nil {
+		logger.Log.Info(err)
+		return nil, err
+	}
+
+	return &res2, nil
 }

@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/MalukiMuthusi/mintbase/internal/adapters"
@@ -24,7 +23,7 @@ func (h *OwnedHandler) Handle(c *gin.Context) {
 		return
 	}
 
-	b, err := adapters.GetOwnedByUser(&userID)
+	b, err := adapters.GetOwnedByUser(userID)
 	if err != nil {
 		e := models.BasicError{
 			Code:    models.InvalidUserIdParam.String(),
@@ -37,5 +36,5 @@ func (h *OwnedHandler) Handle(c *gin.Context) {
 
 	// var res map[string]interface{}
 
-	json.NewEncoder(c.Writer).Encode(b)
+	c.JSON(http.StatusOK, b)
 }
