@@ -12,21 +12,20 @@ import (
 	"github.com/MalukiMuthusi/mintbase/logger"
 )
 
-func GetOwners(tokenID *models.OwnerParameter) ([]byte, error) {
+func GetOwners(tokenID models.OwnerParameter) (*map[string]interface{}, error) {
 	queryTemplate := `
-	{ 
-		thing	(
-			where: {
-				id: {_eq: " + {{.TokenId}} + "}
-			}
-		) {  
+	query MyQuery {
+		thing(where: {id: {_eq: "{{.TokenId}}"}}) {
+		  metadata {
 			thing {
-				tokens {
-					ownerId
-				}
+			  tokens {
+				ownerId
+			  }
 			}
+		  }
 		}
-	}
+	  }
+	  
 `
 
 	tmpl, err := template.New("queryTemplate").Parse(queryTemplate)
@@ -76,5 +75,13 @@ func GetOwners(tokenID *models.OwnerParameter) ([]byte, error) {
 		return nil, models.ErrFailedFetchData
 	}
 
-	return data, nil
+	var resp map[string]interface{}
+
+	err = json.Unmarshal(data, &resp)
+	if err != nil {
+		logger.Log.Info(err)
+		return nil, models.ErrFailedFetchData
+	}
+
+	return &resp, nil
 }

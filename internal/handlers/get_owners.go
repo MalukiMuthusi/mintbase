@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/MalukiMuthusi/mintbase/internal/adapters"
@@ -25,7 +24,7 @@ func (h *OwnersHandler) Handle(c *gin.Context) {
 		return
 	}
 
-	b, err := adapters.GetOwners(&ownerParameter)
+	b, err := adapters.GetOwners(ownerParameter)
 	if err != nil {
 
 		var e models.BasicError
@@ -57,6 +56,6 @@ func (h *OwnersHandler) Handle(c *gin.Context) {
 		return
 	}
 
-	json.NewEncoder(c.Writer).Encode(b)
+	c.JSON(http.StatusOK, b)
 
 }

@@ -75,15 +75,13 @@ func GetOwnedByUser(user models.UserIDParameter) (*map[string]interface{}, error
 		return nil, err
 	}
 
-	// var res models.Resp
+	var resp map[string]interface{}
 
-	var res2 map[string]interface{}
-
-	err = json.Unmarshal(data, &res2)
+	err = json.Unmarshal(data, &resp)
 	if err != nil {
 		logger.Log.Info(err)
 		return nil, err
 	}
 
-	return &res2, nil
+	return &resp, nil
 }
