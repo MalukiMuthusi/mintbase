@@ -13,9 +13,9 @@ type OwnersHandler struct{}
 
 func (h *OwnersHandler) Handle(c *gin.Context) {
 
-	var ownerParameter *models.OwnerParameter
+	var ownerParameter models.OwnerParameter
 
-	if err := c.ShouldBindUri(ownerParameter); err != nil {
+	if err := c.ShouldBindUri(&ownerParameter); err != nil {
 		e := models.BasicError{
 			Code:    models.InvalidTokenID.String(),
 			Message: "provide a valid token ID",
@@ -25,7 +25,7 @@ func (h *OwnersHandler) Handle(c *gin.Context) {
 		return
 	}
 
-	b, err := adapters.GetOwners(ownerParameter)
+	b, err := adapters.GetOwners(&ownerParameter)
 	if err != nil {
 
 		var e models.BasicError

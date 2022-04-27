@@ -12,9 +12,9 @@ import (
 type OwnedHandler struct{}
 
 func (h *OwnedHandler) Handle(c *gin.Context) {
-	var userID *models.UserIDParameter
+	var userID models.UserIDParameter
 
-	if err := c.ShouldBindUri(userID); err != nil {
+	if err := c.ShouldBindUri(&userID); err != nil {
 		e := models.BasicError{
 			Code:    models.InvalidUserIdParam.String(),
 			Message: "provide a valid user parameter",
@@ -24,7 +24,7 @@ func (h *OwnedHandler) Handle(c *gin.Context) {
 		return
 	}
 
-	b, err := adapters.GetOwnedByUser(userID)
+	b, err := adapters.GetOwnedByUser(&userID)
 	if err != nil {
 		e := models.BasicError{
 			Code:    models.InvalidUserIdParam.String(),

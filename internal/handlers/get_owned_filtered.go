@@ -12,9 +12,9 @@ import (
 type OwnedFilteredHandler struct{}
 
 func (h *OwnedFilteredHandler) Handle(c *gin.Context) {
-	var ownedFilteredParamete *models.OwnedFilteredParameter
+	var ownedFilteredParamete models.OwnedFilteredParameter
 
-	if err := c.ShouldBindUri(ownedFilteredParamete); err != nil {
+	if err := c.ShouldBindUri(&ownedFilteredParamete); err != nil {
 		e := models.BasicError{
 			Code:    models.InvalidUserIdParam.String(),
 			Message: "provide a valid user and store parameter",
@@ -24,7 +24,7 @@ func (h *OwnedFilteredHandler) Handle(c *gin.Context) {
 		return
 	}
 
-	b, err := adapters.GetOwnedFiltered(ownedFilteredParamete)
+	b, err := adapters.GetOwnedFiltered(&ownedFilteredParamete)
 	if err != nil {
 		e := models.BasicError{
 			Code:    models.InvalidUserIdParam.String(),
